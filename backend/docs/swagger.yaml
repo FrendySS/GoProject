@@ -1,0 +1,944 @@
+basePath: /api
+definitions:
+  controllers.AssignRoleInput:
+    properties:
+      role:
+        example: manager
+        type: string
+      userId:
+        example: e7b1c2f1-567b-4b14-a8d7-cd5b08bfc9d0
+        type: string
+    required:
+    - role
+    - userId
+    type: object
+  controllers.LoginInput:
+    properties:
+      email:
+        example: john@example.com
+        type: string
+      password:
+        example: supersecret
+        type: string
+    required:
+    - email
+    - password
+    type: object
+  controllers.RefreshTokenInput:
+    properties:
+      refresh_token:
+        example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
+        type: string
+    required:
+    - refresh_token
+    type: object
+  controllers.RegisterInput:
+    properties:
+      email:
+        example: john@example.com
+        type: string
+      password:
+        example: supersecret
+        minLength: 6
+        type: string
+      username:
+        example: john_doe
+        type: string
+    required:
+    - email
+    - password
+    - username
+    type: object
+  controllers.TokenResponse:
+    properties:
+      access_token:
+        example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
+        type: string
+      refresh_token:
+        example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
+        type: string
+      token_type:
+        example: Bearer
+        type: string
+    type: object
+  controllers.UpdatePasswordInput:
+    properties:
+      newPassword:
+        example: newpassword456
+        minLength: 6
+        type: string
+      oldPassword:
+        example: oldpassword123
+        type: string
+    required:
+    - newPassword
+    - oldPassword
+    type: object
+  controllers.UserIDInput:
+    properties:
+      userId:
+        example: e7b1c2f1-567b-4b14-a8d7-cd5b08bfc9d0
+        type: string
+    required:
+    - userId
+    type: object
+  models.ErrorResponse:
+    properties:
+      message:
+        example: Произошла ошибка
+        type: string
+    type: object
+  models.Product:
+    properties:
+      createdAt:
+        type: string
+      deletedAt:
+        type: string
+      description:
+        type: string
+      id:
+        type: string
+      name:
+        type: string
+      price:
+        type: number
+      status:
+        type: string
+      stock:
+        type: integer
+      updatedAt:
+        type: string
+    type: object
+  models.User:
+    properties:
+      createdAt:
+        type: string
+      deletedAt:
+        type: string
+      email:
+        example: john@example.com
+        type: string
+      id:
+        example: e7b1c2f1-567b-4b14-a8d7-cd5b08bfc9d0
+        type: string
+      role:
+        example: viewer
+        type: string
+      status:
+        example: active
+        type: string
+      updatedAt:
+        type: string
+      username:
+        example: john_doe
+        type: string
+    type: object
+host: localhost:8080
+info:
+  contact: {}
+  description: API для управления складом товаров с ролевой моделью доступа
+  title: MarketEase API
+  version: "2.0"
+paths:
+  /admin/assign-role:
+    post:
+      consumes:
+      - application/json
+      description: Только для director
+      parameters:
+      - description: Данные для изменения роли
+        in: body
+        name: input
+        required: true
+        schema:
+          $ref: '#/definitions/controllers.AssignRoleInput'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+      security:
+      - BearerAuth: []
+      summary: Изменить роль пользователя
+      tags:
+      - admin
+  /admin/ban-user:
+    post:
+      consumes:
+      - application/json
+      description: Только для director
+      parameters:
+      - description: ID пользователя
+        in: body
+        name: input
+        required: true
+        schema:
+          $ref: '#/definitions/controllers.UserIDInput'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+      security:
+      - BearerAuth: []
+      summary: Заблокировать пользователя
+      tags:
+      - admin
+  /admin/delete-user:
+    post:
+      consumes:
+      - application/json
+      description: Только для director
+      parameters:
+      - description: ID пользователя
+        in: body
+        name: input
+        required: true
+        schema:
+          $ref: '#/definitions/controllers.UserIDInput'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+      security:
+      - BearerAuth: []
+      summary: Удалить пользователя
+      tags:
+      - admin
+  /admin/deleted-users:
+    get:
+      description: Только для director
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.User'
+            type: array
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+      security:
+      - BearerAuth: []
+      summary: Получить список удаленных пользователей
+      tags:
+      - admin
+  /admin/restore-user:
+    post:
+      consumes:
+      - application/json
+      description: Только для director
+      parameters:
+      - description: ID пользователя
+        in: body
+        name: input
+        required: true
+        schema:
+          $ref: '#/definitions/controllers.UserIDInput'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+      security:
+      - BearerAuth: []
+      summary: Восстановить удаленного пользователя
+      tags:
+      - admin
+  /admin/unban-user:
+    post:
+      consumes:
+      - application/json
+      description: Только для director
+      parameters:
+      - description: ID пользователя
+        in: body
+        name: input
+        required: true
+        schema:
+          $ref: '#/definitions/controllers.UserIDInput'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+      security:
+      - BearerAuth: []
+      summary: Разблокировать пользователя
+      tags:
+      - admin
+  /admin/users:
+    get:
+      description: Только для director
+      parameters:
+      - description: Включать удаленных пользователей
+        in: query
+        name: includeDeleted
+        type: boolean
+      - description: Включать заблокированных пользователей
+        in: query
+        name: includeBanned
+        type: boolean
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.User'
+            type: array
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+      security:
+      - BearerAuth: []
+      summary: Получить список всех пользователей
+      tags:
+      - admin
+  /login:
+    post:
+      consumes:
+      - application/json
+      description: Аутентификация пользователя по email и паролю
+      parameters:
+      - description: Данные для входа
+        in: body
+        name: credentials
+        required: true
+        schema:
+          $ref: '#/definitions/controllers.LoginInput'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/controllers.TokenResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+      summary: Вход пользователя
+      tags:
+      - auth
+  /products:
+    get:
+      consumes:
+      - application/json
+      description: Получить список всех товаров с возможностью фильтрации и сортировки
+      parameters:
+      - description: Фильтр по названию
+        in: query
+        name: name
+        type: string
+      - description: Минимальная цена
+        in: query
+        name: minPrice
+        type: number
+      - description: Максимальная цена
+        in: query
+        name: maxPrice
+        type: number
+      - description: Минимальное количество на складе
+        in: query
+        name: minStock
+        type: integer
+      - description: Максимальное количество на складе
+        in: query
+        name: maxStock
+        type: integer
+      - description: Поле для сортировки (name, price, stock, created_at)
+        in: query
+        name: sortBy
+        type: string
+      - description: Порядок сортировки (asc, desc)
+        in: query
+        name: sortOrder
+        type: string
+      - description: Включать удаленные товары
+        in: query
+        name: includeDeleted
+        type: boolean
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.Product'
+            type: array
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+      security:
+      - BearerAuth: []
+      summary: Получить все товары
+      tags:
+      - products
+    post:
+      consumes:
+      - application/json
+      description: Добавить новый товар (требуется роль manager или director)
+      parameters:
+      - description: Данные товара
+        in: body
+        name: product
+        required: true
+        schema:
+          $ref: '#/definitions/models.Product'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/models.Product'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+      security:
+      - BearerAuth: []
+      summary: Создать новый товар
+      tags:
+      - products
+  /products/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Пометить товар как удаленный (требуется роль manager или director)
+      parameters:
+      - description: ID товара
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+      security:
+      - BearerAuth: []
+      summary: Удалить товар
+      tags:
+      - products
+    get:
+      consumes:
+      - application/json
+      description: Получить информацию о товаре по его ID
+      parameters:
+      - description: ID товара
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Product'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+      security:
+      - BearerAuth: []
+      summary: Получить товар по ID
+      tags:
+      - products
+    put:
+      consumes:
+      - application/json
+      description: Изменить информацию о товаре (требуется роль manager или director)
+      parameters:
+      - description: ID товара
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Обновленные данные товара
+        in: body
+        name: product
+        required: true
+        schema:
+          $ref: '#/definitions/models.Product'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Product'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+      security:
+      - BearerAuth: []
+      summary: Обновить товар
+      tags:
+      - products
+  /products/{id}/restore:
+    put:
+      consumes:
+      - application/json
+      description: Восстановить ранее удаленный товар (требуется роль manager или
+        director)
+      parameters:
+      - description: ID товара
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+      security:
+      - BearerAuth: []
+      summary: Восстановить удаленный товар
+      tags:
+      - products
+  /products/deleted:
+    get:
+      consumes:
+      - application/json
+      description: Получить список всех удаленных товаров (требуется роль manager
+        или director)
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.Product'
+            type: array
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+      security:
+      - BearerAuth: []
+      summary: Получить список удаленных товаров
+      tags:
+      - products
+  /profile:
+    get:
+      description: Получить информацию о своём профиле
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.User'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+      security:
+      - BearerAuth: []
+      summary: Профиль пользователя
+      tags:
+      - profile
+  /profile/password:
+    put:
+      consumes:
+      - application/json
+      description: Изменить свой пароль
+      parameters:
+      - description: Старый и новый пароль
+        in: body
+        name: input
+        required: true
+        schema:
+          $ref: '#/definitions/controllers.UpdatePasswordInput'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+      security:
+      - BearerAuth: []
+      summary: Смена пароля
+      tags:
+      - profile
+  /refresh:
+    post:
+      consumes:
+      - application/json
+      description: Получение нового токена доступа с помощью рефреш токена
+      parameters:
+      - description: Рефреш токен
+        in: body
+        name: refresh_token
+        required: true
+        schema:
+          $ref: '#/definitions/controllers.RefreshTokenInput'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/controllers.TokenResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+      summary: Обновление токена
+      tags:
+      - auth
+  /register:
+    post:
+      consumes:
+      - application/json
+      description: Создать нового пользователя с ролью viewer
+      parameters:
+      - description: Данные пользователя для регистрации
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/controllers.RegisterInput'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/models.User'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+        "409":
+          description: Conflict
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+      summary: Регистрация пользователя
+      tags:
+      - auth
+securityDefinitions:
+  BearerAuth:
+    in: header
+    name: Authorization
+    type: apiKey
+swagger: "2.0"

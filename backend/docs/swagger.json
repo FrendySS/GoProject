@@ -1,0 +1,1325 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "description": "API для управления складом товаров с ролевой моделью доступа",
+    "title": "MarketEase API",
+    "contact": {},
+    "version": "2.0"
+  },
+  "host": "localhost:8080",
+  "basePath": "/api",
+  "paths": {
+    "/admin/assign-role": {
+      "post": {
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "description": "Только для director",
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "tags": ["admin"],
+        "summary": "Изменить роль пользователя",
+        "parameters": [
+          {
+            "description": "Данные для изменения роли",
+            "name": "input",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/controllers.AssignRoleInput"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "object",
+              "additionalProperties": {
+                "type": "string"
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/models.ErrorResponse"
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "$ref": "#/definitions/models.ErrorResponse"
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "schema": {
+              "$ref": "#/definitions/models.ErrorResponse"
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "schema": {
+              "$ref": "#/definitions/models.ErrorResponse"
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "schema": {
+              "$ref": "#/definitions/models.ErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/admin/ban-user": {
+      "post": {
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "description": "Только для director",
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "tags": ["admin"],
+        "summary": "Заблокировать пользователя",
+        "parameters": [
+          {
+            "description": "ID пользователя",
+            "name": "input",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/controllers.UserIDInput"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "object",
+              "additionalProperties": {
+                "type": "string"
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/models.ErrorResponse"
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "$ref": "#/definitions/models.ErrorResponse"
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "schema": {
+              "$ref": "#/definitions/models.ErrorResponse"
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "schema": {
+              "$ref": "#/definitions/models.ErrorResponse"
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "schema": {
+              "$ref": "#/definitions/models.ErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/admin/delete-user": {
+      "post": {
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "description": "Только для director",
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "tags": ["admin"],
+        "summary": "Удалить пользователя",
+        "parameters": [
+          {
+            "description": "ID пользователя",
+            "name": "input",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/controllers.UserIDInput"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "object",
+              "additionalProperties": {
+                "type": "string"
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/models.ErrorResponse"
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "$ref": "#/definitions/models.ErrorResponse"
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "schema": {
+              "$ref": "#/definitions/models.ErrorResponse"
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "schema": {
+              "$ref": "#/definitions/models.ErrorResponse"
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "schema": {
+              "$ref": "#/definitions/models.ErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/admin/deleted-users": {
+      "get": {
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "description": "Только для director",
+        "produces": ["application/json"],
+        "tags": ["admin"],
+        "summary": "Получить список удаленных пользователей",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/models.User"
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "$ref": "#/definitions/models.ErrorResponse"
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "schema": {
+              "$ref": "#/definitions/models.ErrorResponse"
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "schema": {
+              "$ref": "#/definitions/models.ErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/admin/restore-user": {
+      "post": {
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "description": "Только для director",
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "tags": ["admin"],
+        "summary": "Восстановить удаленного пользователя",
+        "parameters": [
+          {
+            "description": "ID пользователя",
+            "name": "input",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/controllers.UserIDInput"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "object",
+              "additionalProperties": {
+                "type": "string"
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/models.ErrorResponse"
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "$ref": "#/definitions/models.ErrorResponse"
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "schema": {
+              "$ref": "#/definitions/models.ErrorResponse"
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "schema": {
+              "$ref": "#/definitions/models.ErrorResponse"
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "schema": {
+              "$ref": "#/definitions/models.ErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/admin/unban-user": {
+      "post": {
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "description": "Только для director",
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "tags": ["admin"],
+        "summary": "Разблокировать пользователя",
+        "parameters": [
+          {
+            "description": "ID пользователя",
+            "name": "input",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/controllers.UserIDInput"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "object",
+              "additionalProperties": {
+                "type": "string"
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/models.ErrorResponse"
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "$ref": "#/definitions/models.ErrorResponse"
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "schema": {
+              "$ref": "#/definitions/models.ErrorResponse"
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "schema": {
+              "$ref": "#/definitions/models.ErrorResponse"
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "schema": {
+              "$ref": "#/definitions/models.ErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/admin/users": {
+      "get": {
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "description": "Только для director",
+        "produces": ["application/json"],
+        "tags": ["admin"],
+        "summary": "Получить список всех пользователей",
+        "parameters": [
+          {
+            "type": "boolean",
+            "description": "Включать удаленных пользователей",
+            "name": "includeDeleted",
+            "in": "query"
+          },
+          {
+            "type": "boolean",
+            "description": "Включать заблокированных пользователей",
+            "name": "includeBanned",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/models.User"
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "$ref": "#/definitions/models.ErrorResponse"
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "schema": {
+              "$ref": "#/definitions/models.ErrorResponse"
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "schema": {
+              "$ref": "#/definitions/models.ErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/login": {
+      "post": {
+        "description": "Аутентификация пользователя по email и паролю",
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "tags": ["auth"],
+        "summary": "Вход пользователя",
+        "parameters": [
+          {
+            "description": "Данные для входа",
+            "name": "credentials",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/controllers.LoginInput"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/controllers.TokenResponse"
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/models.ErrorResponse"
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "$ref": "#/definitions/models.ErrorResponse"
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "schema": {
+              "$ref": "#/definitions/models.ErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/products": {
+      "get": {
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "description": "Получить список всех товаров с возможностью фильтрации и сортировки",
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "tags": ["products"],
+        "summary": "Получить все товары",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "Фильтр по названию",
+            "name": "name",
+            "in": "query"
+          },
+          {
+            "type": "number",
+            "description": "Минимальная цена",
+            "name": "minPrice",
+            "in": "query"
+          },
+          {
+            "type": "number",
+            "description": "Максимальная цена",
+            "name": "maxPrice",
+            "in": "query"
+          },
+          {
+            "type": "integer",
+            "description": "Минимальное количество на складе",
+            "name": "minStock",
+            "in": "query"
+          },
+          {
+            "type": "integer",
+            "description": "Максимальное количество на складе",
+            "name": "maxStock",
+            "in": "query"
+          },
+          {
+            "type": "string",
+            "description": "Поле для сортировки (name, price, stock, created_at)",
+            "name": "sortBy",
+            "in": "query"
+          },
+          {
+            "type": "string",
+            "description": "Порядок сортировки (asc, desc)",
+            "name": "sortOrder",
+            "in": "query"
+          },
+          {
+            "type": "boolean",
+            "description": "Включать удаленные товары",
+            "name": "includeDeleted",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/models.Product"
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "$ref": "#/definitions/models.ErrorResponse"
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "schema": {
+              "$ref": "#/definitions/models.ErrorResponse"
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "schema": {
+              "$ref": "#/definitions/models.ErrorResponse"
+            }
+          }
+        }
+      },
+      "post": {
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "description": "Добавить новый товар (требуется роль manager или director)",
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "tags": ["products"],
+        "summary": "Создать новый товар",
+        "parameters": [
+          {
+            "description": "Данные товара",
+            "name": "product",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/models.Product"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created",
+            "schema": {
+              "$ref": "#/definitions/models.Product"
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/models.ErrorResponse"
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "$ref": "#/definitions/models.ErrorResponse"
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "schema": {
+              "$ref": "#/definitions/models.ErrorResponse"
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "schema": {
+              "$ref": "#/definitions/models.ErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/products/deleted": {
+      "get": {
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "description": "Получить список всех удаленных товаров (требуется роль manager или director)",
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "tags": ["products"],
+        "summary": "Получить список удаленных товаров",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/models.Product"
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "$ref": "#/definitions/models.ErrorResponse"
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "schema": {
+              "$ref": "#/definitions/models.ErrorResponse"
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "schema": {
+              "$ref": "#/definitions/models.ErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/products/{id}": {
+      "get": {
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "description": "Получить информацию о товаре по его ID",
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "tags": ["products"],
+        "summary": "Получить товар по ID",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "ID товара",
+            "name": "id",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/models.Product"
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/models.ErrorResponse"
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "$ref": "#/definitions/models.ErrorResponse"
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "schema": {
+              "$ref": "#/definitions/models.ErrorResponse"
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "schema": {
+              "$ref": "#/definitions/models.ErrorResponse"
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "schema": {
+              "$ref": "#/definitions/models.ErrorResponse"
+            }
+          }
+        }
+      },
+      "put": {
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "description": "Изменить информацию о товаре (требуется роль manager или director)",
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "tags": ["products"],
+        "summary": "Обновить товар",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "ID товара",
+            "name": "id",
+            "in": "path",
+            "required": true
+          },
+          {
+            "description": "Обновленные данные товара",
+            "name": "product",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/models.Product"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/models.Product"
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/models.ErrorResponse"
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "$ref": "#/definitions/models.ErrorResponse"
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "schema": {
+              "$ref": "#/definitions/models.ErrorResponse"
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "schema": {
+              "$ref": "#/definitions/models.ErrorResponse"
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "schema": {
+              "$ref": "#/definitions/models.ErrorResponse"
+            }
+          }
+        }
+      },
+      "delete": {
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "description": "Пометить товар как удаленный (требуется роль manager или director)",
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "tags": ["products"],
+        "summary": "Удалить товар",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "ID товара",
+            "name": "id",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "object",
+              "additionalProperties": {
+                "type": "string"
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/models.ErrorResponse"
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "$ref": "#/definitions/models.ErrorResponse"
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "schema": {
+              "$ref": "#/definitions/models.ErrorResponse"
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "schema": {
+              "$ref": "#/definitions/models.ErrorResponse"
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "schema": {
+              "$ref": "#/definitions/models.ErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/products/{id}/restore": {
+      "put": {
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "description": "Восстановить ранее удаленный товар (требуется роль manager или director)",
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "tags": ["products"],
+        "summary": "Восстановить удаленный товар",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "ID товара",
+            "name": "id",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "object",
+              "additionalProperties": {
+                "type": "string"
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/models.ErrorResponse"
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "$ref": "#/definitions/models.ErrorResponse"
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "schema": {
+              "$ref": "#/definitions/models.ErrorResponse"
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "schema": {
+              "$ref": "#/definitions/models.ErrorResponse"
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "schema": {
+              "$ref": "#/definitions/models.ErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/profile": {
+      "get": {
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "description": "Получить информацию о своём профиле",
+        "produces": ["application/json"],
+        "tags": ["profile"],
+        "summary": "Профиль пользователя",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/models.User"
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/models.ErrorResponse"
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "$ref": "#/definitions/models.ErrorResponse"
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "schema": {
+              "$ref": "#/definitions/models.ErrorResponse"
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "schema": {
+              "$ref": "#/definitions/models.ErrorResponse"
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "schema": {
+              "$ref": "#/definitions/models.ErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/profile/password": {
+      "put": {
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "description": "Изменить свой пароль",
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "tags": ["profile"],
+        "summary": "Смена пароля",
+        "parameters": [
+          {
+            "description": "Старый и новый пароль",
+            "name": "input",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/controllers.UpdatePasswordInput"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "object",
+              "additionalProperties": {
+                "type": "string"
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/models.ErrorResponse"
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "$ref": "#/definitions/models.ErrorResponse"
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "schema": {
+              "$ref": "#/definitions/models.ErrorResponse"
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "schema": {
+              "$ref": "#/definitions/models.ErrorResponse"
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "schema": {
+              "$ref": "#/definitions/models.ErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/refresh": {
+      "post": {
+        "description": "Получение нового токена доступа с помощью рефреш токена",
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "tags": ["auth"],
+        "summary": "Обновление токена",
+        "parameters": [
+          {
+            "description": "Рефреш токен",
+            "name": "refresh_token",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/controllers.RefreshTokenInput"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/controllers.TokenResponse"
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/models.ErrorResponse"
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "$ref": "#/definitions/models.ErrorResponse"
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "schema": {
+              "$ref": "#/definitions/models.ErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/register": {
+      "post": {
+        "description": "Создать нового пользователя с ролью viewer",
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "tags": ["auth"],
+        "summary": "Регистрация пользователя",
+        "parameters": [
+          {
+            "description": "Данные пользователя для регистрации",
+            "name": "user",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/controllers.RegisterInput"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created",
+            "schema": {
+              "$ref": "#/definitions/models.User"
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/models.ErrorResponse"
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "schema": {
+              "$ref": "#/definitions/models.ErrorResponse"
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "schema": {
+              "$ref": "#/definitions/models.ErrorResponse"
+            }
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "controllers.AssignRoleInput": {
+      "type": "object",
+      "required": ["role", "userId"],
+      "properties": {
+        "role": {
+          "type": "string",
+          "example": "manager"
+        },
+        "userId": {
+          "type": "string",
+          "example": "e7b1c2f1-567b-4b14-a8d7-cd5b08bfc9d0"
+        }
+      }
+    },
+    "controllers.LoginInput": {
+      "type": "object",
+      "required": ["email", "password"],
+      "properties": {
+        "email": {
+          "type": "string",
+          "example": "john@example.com"
+        },
+        "password": {
+          "type": "string",
+          "example": "supersecret"
+        }
+      }
+    },
+    "controllers.RefreshTokenInput": {
+      "type": "object",
+      "required": ["refresh_token"],
+      "properties": {
+        "refresh_token": {
+          "type": "string",
+          "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+        }
+      }
+    },
+    "controllers.RegisterInput": {
+      "type": "object",
+      "required": ["email", "password", "username"],
+      "properties": {
+        "email": {
+          "type": "string",
+          "example": "john@example.com"
+        },
+        "password": {
+          "type": "string",
+          "minLength": 6,
+          "example": "supersecret"
+        },
+        "username": {
+          "type": "string",
+          "example": "john_doe"
+        }
+      }
+    },
+    "controllers.TokenResponse": {
+      "type": "object",
+      "properties": {
+        "access_token": {
+          "type": "string",
+          "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+        },
+        "refresh_token": {
+          "type": "string",
+          "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+        },
+        "token_type": {
+          "type": "string",
+          "example": "Bearer"
+        }
+      }
+    },
+    "controllers.UpdatePasswordInput": {
+      "type": "object",
+      "required": ["newPassword", "oldPassword"],
+      "properties": {
+        "newPassword": {
+          "type": "string",
+          "minLength": 6,
+          "example": "newpassword456"
+        },
+        "oldPassword": {
+          "type": "string",
+          "example": "oldpassword123"
+        }
+      }
+    },
+    "controllers.UserIDInput": {
+      "type": "object",
+      "required": ["userId"],
+      "properties": {
+        "userId": {
+          "type": "string",
+          "example": "e7b1c2f1-567b-4b14-a8d7-cd5b08bfc9d0"
+        }
+      }
+    },
+    "models.ErrorResponse": {
+      "type": "object",
+      "properties": {
+        "message": {
+          "type": "string",
+          "example": "Произошла ошибка"
+        }
+      }
+    },
+    "models.Product": {
+      "type": "object",
+      "properties": {
+        "createdAt": {
+          "type": "string"
+        },
+        "deletedAt": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "price": {
+          "type": "number"
+        },
+        "status": {
+          "type": "string"
+        },
+        "stock": {
+          "type": "integer"
+        },
+        "updatedAt": {
+          "type": "string"
+        }
+      }
+    },
+    "models.User": {
+      "type": "object",
+      "properties": {
+        "createdAt": {
+          "type": "string"
+        },
+        "deletedAt": {
+          "type": "string"
+        },
+        "email": {
+          "type": "string",
+          "example": "john@example.com"
+        },
+        "id": {
+          "type": "string",
+          "example": "e7b1c2f1-567b-4b14-a8d7-cd5b08bfc9d0"
+        },
+        "role": {
+          "type": "string",
+          "example": "viewer"
+        },
+        "status": {
+          "type": "string",
+          "example": "active"
+        },
+        "updatedAt": {
+          "type": "string"
+        },
+        "username": {
+          "type": "string",
+          "example": "john_doe"
+        }
+      }
+    }
+  },
+  "securityDefinitions": {
+    "BearerAuth": {
+      "type": "apiKey",
+      "name": "Authorization",
+      "in": "header"
+    }
+  }
+}

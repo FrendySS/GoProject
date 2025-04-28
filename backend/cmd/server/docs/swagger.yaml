@@ -1,0 +1,14 @@
+basePath: /api
+host: localhost:8080
+info:
+  contact: {}
+  description: API для управления складом товаров с ролевой моделью доступа
+  title: MarketEase API
+  version: "2.0"
+paths: {}
+securityDefinitions:
+  BearerAuth:
+    in: header
+    name: Authorization
+    type: apiKey
+swagger: "2.0"
