@@ -1,7 +1,8 @@
 {
 	"dependencies": {
-		"vaul": "1.1.2",
+		"date-fns": "3.6.0",
 		"react-day-picker": "9.6.7",
-		"date-fns": "3.6.0"
+		"styled-jsx": "^5.1.7",
+		"vaul": "1.1.2"
 	}
 }
