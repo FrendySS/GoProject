@@ -1,4 +1,19 @@
+version: "3.8"
+
 services:
+  db:
+    image: postgres:15
+    container_name: marketease-postgres
+    restart: always
+    environment:
+      POSTGRES_DB: marketease
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: blaster5505
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+
   backend:
     build:
       context: .
@@ -20,19 +35,6 @@ services:
       - "3000:3000"
     depends_on:
       - backend
-
-  db:
-    image: postgres:15
-    container_name: marketease-postgres
-    restart: always
-    environment:
-      POSTGRES_DB: marketease
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
-    volumes:
-      - postgres_data:/var/lib/postgresql/data
-    ports:
-      - "5432:5432"
 
 volumes:
   postgres_data:

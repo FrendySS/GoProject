@@ -1,8 +1,0 @@
-{
-	"dependencies": {
-		"date-fns": "3.6.0",
-		"react-day-picker": "9.6.7",
-		"styled-jsx": "^5.1.7",
-		"vaul": "1.1.2"
-	}
-}
